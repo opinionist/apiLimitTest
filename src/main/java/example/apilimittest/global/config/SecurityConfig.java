@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(new CustomAccessDeniedHandler())// 권한이 없는 경우
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new RateLimitFilter(), JwtAuthenticationFilter.class) // RateLimitFilter 추가
         ;
 
         return httpSecurity.build();

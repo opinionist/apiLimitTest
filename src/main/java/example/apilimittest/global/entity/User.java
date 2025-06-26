@@ -86,4 +86,10 @@ public class User implements UserDetails {
     public String getEmail() {
         return this.email;
     }
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Override
+    public String getUId() {
+        return this.UId;
+    }
 }
