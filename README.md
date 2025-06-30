@@ -15,25 +15,27 @@ ex)-> 학교, PC방
 5. 만약 토큰이 없으면 차단한다.
 6. 만약 토큰이 있으면 API를 실행한다.
 추가
--   
+
+```properties
 spring:
     cloud:
-    gateway:
-    server:
-    webflux:
-    routes:
-    - id : my-api
-    uri: http://localhost:8090
-    filters:
-    - name: RequestRateLimiter
-    args:
-    redis-rate-limiter.replenishRate: 10
-    redis-rate-limiter.burstCapacity: 20
+        gateway:
+            server:
+                webflux:
+                    routes:
+                         id : my-api
+                         uri: http://localhost:8090
+                    filters:
+                        name: RequestRateLimiter
+                    args:
+                        redis-rate-limiter.replenishRate: 10
+                        redis-rate-limiter.burstCapacity: 20
 
     data:
-    redis:
-    host: localhost
-    port: 6379
+        redis:
+            host: localhost
+            port: 6379
+```
 
 이런식으로 해보려고 했으나 webService와 spring MVC, spring security와 webflux가 충돌이 나서
 이 방법은 사용하지 않기로 했다. (나중에 다시 시도해볼 예정)
