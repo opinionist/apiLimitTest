@@ -62,9 +62,9 @@ public class SecurityConfig {
                         })
                         .deleteCookies("JSESSIONID") // 쿠키 삭제
                 )
-                .formLogin(form -> form.disable()) // 폼 로그인 비활성화 -> 나중에 변경할 거
+                .formLogin(AbstractHttpConfigurer::disable) // 폼 로그인 비활성화 -> 나중에 변경할 거
 
-                .httpBasic(http -> http.disable()) // HTTP Basic 인증 비활성화 -> 나중에 변경할 거
+                .httpBasic(AbstractHttpConfigurer::disable) // HTTP Basic 인증 비활성화 -> 나중에 변경할 거
 
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint())// 인증되지 않은 경우
@@ -72,6 +72,7 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(new RateLimitFilter(), JwtAuthenticationFilter.class) // RateLimitFilter 추가
+                .addFilterAfter(new SpikeArrestFilter(), RateLimitFilter.class) // SpikeArrestFilter 추가
         ;
 
         return httpSecurity.build();
